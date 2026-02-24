@@ -6,6 +6,8 @@ let UserWalletAddress
 let WalletConnectBtn = document.querySelector(".WalletConnectBtn")
 let CurrentChainID = document.querySelector(".CurrentChainName")
 let UserWalletAddressInput = document.querySelector(".UserAddressInput")
+let NftDisplayContainer = document.querySelector(".nft-display-container")
+let searchBTN = document.querySelector(".SearchBtn")
 
 async function CheckChainID() {
     web3 = new Web3(window.ethereum)
@@ -55,3 +57,41 @@ async function WalletConnect() {
 }
 
 WalletConnectBtn.addEventListener("click", WalletConnect)
+
+
+const APIKEY = import.meta.env.VITE_ALCHEMY_APIKEY
+const baseURL = `https://eth-mainnet.g.alchemy.com/nft/v3/${APIKEY}`
+
+async function GetNFTData(){
+    try{
+       const UserAddy = UserWalletAddressInput.value
+       console.log("fetching nft data from this addy:", UserAddy)
+       console.log("...")
+
+       const NFTData = await fetch(`${baseURL}/getNFTsForOwner?owner=${UserAddy}&pageSize=5`)
+       const ActualNFTData = await NFTData.json()
+       console.log(ActualNFTData)
+
+       let OwnedNFTs = ActualNFTData.ownedNfts
+       const htmlContent = OwnedNFTs.map(data=> `
+               <div style = " width: 300px; height: 300px; margin: 10px; border: white 1px solid; position: relative; background: url('${data.image.pngUrl}') center no-repeat;" >
+                <div style="   background-color: white; position: absolute; bottom: 0;  width: 100%; height: 70px;">
+                    <p style = "margin-left: 18px; padding: 10px;">${data.name}</p>
+                    <div style = "display:flex; align-items:center; justify-content: space-around;">
+                        <p>${data.tokenType}</p>
+                        <p>${data.tokenId}</p>
+                    </div>
+                </div>
+            </div>
+        `
+
+       ).join('')
+
+     NftDisplayContainer.innerHTML += htmlContent
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+searchBTN.addEventListener("click", GetNFTData)
