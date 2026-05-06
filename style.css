@@ -7,14 +7,13 @@
 }
 
 body{
-    font-family: 'poppins';
-    
+    font-family: 'Poppins', sans-serif;
 }
 
 .main{
     background-color: white;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .main .navbar{
@@ -29,15 +28,23 @@ body{
 
 .navbar p{
     font-size: 20px;
+    color: white;
+    font-weight: 500;
 }
 
-
 .navbar button{
-    padding: 10px;
+    padding: 10px 20px;
     font-family: inherit;
     border-radius: 20px;
     cursor: pointer;
-    border: 1px solid white;
+    border: none;
+    font-weight: 500;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.navbar button:hover {
+    transform: scale(1.05);
+    background-color: #f0f0f0;
 }
 
 .main .parnet-container{
@@ -54,6 +61,7 @@ body{
     border: 10px solid white;
     border-radius: 30px;
     padding: 10px 30px;
+    background-color: rgb(37, 172, 255);
 }
 
 .main-app-container .search-area-container{
@@ -71,81 +79,139 @@ body{
     outline: none;
     border-radius: 20px;
     border: 1px solid rgb(255, 255, 255);
+    font-family: inherit;
+    font-size: 16px;
 }
 
 input::placeholder{
     font-family: inherit;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .main-app-container .nft-display-container{
     padding: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    overflow-y: scroll;
-    max-height: 400px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    max-height: 600px;
     border-radius: 30px;
+    background-color: rgb(37, 172, 255);
+    min-width: 350px;
 }
 
-.nft-display-container .nft-1-example{
-    
-    background-color: blue;
-    width: 300px;
-    height: 300px;
-    margin: 10px;
-    border: white 1px solid;
-    position: relative;
-    background: url(pfp.jpeg) center no-repeat;
-    object-fit: cover;
-
-}
-
-.nft-1-example .sub-Data{
+/* NFT Card Styles */
+.nft-card {
     background-color: white;
-    position: absolute;
-    bottom: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.nft-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.nft-image-container {
     width: 100%;
-    height: 70px;
-}
-
-.sub-Data > P {
-    margin-left: 18px;
-    padding: 10px;
-}
-
-.nft-1-example .sub-Data .tokenData{
+    height: 280px;
+    background-color: #f0f0f0;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    overflow: hidden;
 }
 
-.OwnedNfts{
-width: 300px;
-height: 300px;
-background-color: lightcoral;
+.nft-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.OwnedNfts .ImgContainer{
-    width: 300px;
-    height: 230px;
-    background-color: blue;
+.nft-image-placeholder {
+    text-align: center;
+    color: #666;
 }
 
-.OwnedNfts .nftData{
-    width: 300px;
+.nft-info {
+    padding: 15px;
     background-color: white;
-    height: 70px;
 }
 
-.nftData .smth{
+.nft-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+    word-break: break-word;
+}
+
+.nft-details {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin: 0px 10px;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
 }
 
-.smth1{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+.nft-token-type {
+    background-color: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 12px;
 }
+
+.nft-token-id {
+    font-family: monospace;
+    font-size: 11px;
+}
+
+.loading-message, .error-message, .no-nfts-message {
+    text-align: center;
+    padding: 40px;
+    color: white;
+    font-size: 18px;
+    grid-column: 1 / -1;
+}
+
+.error-message {
+    color: #ffcccc;
+}
+
+.loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid rgb(37, 172, 255);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .main .navbar {
+        margin: 10px 20px;
+    }
+    
+    .main .parnet-container {
+        margin: 0px 20px;
+    }
+    
+    .main .main-app-container {
+        margin: 20px 20px;
+        flex-direction: column;
+    }
+    
+    .main-app-container .search-area-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+
